@@ -1,0 +1,17 @@
+_dev:
+    - !C.project
+        name : "xrest_utls"
+        root : "${HOME}/devspace/xrest_utls"
+    - !C.version
+        file : "src/version.txt"
+    - !C.git
+        remote : "git@github.com:ayibang/xrest_utls.git"
+    - !C.sonar
+        runner   : "/data/x/tools/sonar/bin/sonar-runner"
+        qube     : "http://sonar.ayibang.cn"
+        src      : "src"
+        language : "php"
+        config:
+            - "sonar.php.coverage.reportPath=test/reports/phpunit.coverage.xml"
+            - "sonar.php.tests.reportPath=test/reports/phpunit.report.xml"
+

@@ -1,0 +1,36 @@
+_env:
+    - !R.env
+        _name    : "define"
+        _res :
+            - !R.vars
+                PRJ_NAME    : "xrest_utls"
+            - !R.include
+                _path :
+                    - "/data/x/etc/xcc_env/rigger/xcc_v1.yaml"
+    - !R.env
+        _name : "base"
+        _mix  : "_base"
+        _res :
+            - !R.vars
+                PORT         : "5001"
+
+    - !R.env
+        _name    : "dev"
+        _mix     : "define,_local_deploy,base,_debug"
+
+    - !R.env
+        _name    : "work"
+        _mix     : "define,_project_deploy,base,_release"
+
+
+_sys:
+    -  !R.system
+        _name : "test"
+        _res:
+            - !R.vars
+                PHP_INI : "${PRJ_ROOT}/conf/used/test_php.ini"
+            - !R.using
+                modul : "xcc_unit"
+                args  : !R.vars
+                    INCLUDE_PATH: "${PRJ_ROOT}/src:${PRJ_ROOT}/test/"
+                    API_ENTRY   : "${PRJ_ROOT}"
