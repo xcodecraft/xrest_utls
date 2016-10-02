@@ -1,0 +1,10 @@
+{
+    "default" : {
+        "regex" : "" ,
+        "error" : "" 
+    },
+    "name" : {
+        "regex" : "" ,
+        "error" : "姓名错误"
+    }
+}
