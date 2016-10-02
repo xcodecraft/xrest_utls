@@ -1,7 +1,8 @@
 <?
+namespace XCC\utls\v1 ;
 class XSql
 {
-    static public function toWhere($dto)
+    static public function where($dto)
     {
          $items  = get_object_vars($dto) ;
          $sql    = "" ;

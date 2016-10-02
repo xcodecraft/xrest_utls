@@ -1,10 +1,14 @@
 {
     "default" : {
         "regex" : "" ,
-        "error" : "" 
+        "error" : ""
     },
     "name" : {
         "regex" : "" ,
         "error" : "姓名错误"
+    },
+    "age" : {
+        "regex" : "/^\\d+/" ,
+        "error" : "age error"
     }
 }

@@ -1,5 +1,5 @@
 <phpunit bootstrap="./bootstrap.php" colors="true" >
     <testsuite name="test">
-        <directory suffix="tc.php" >tc</directory>
+        <directory suffix="test.php" >tc/v1</directory>
     </testsuite>
 </phpunit>

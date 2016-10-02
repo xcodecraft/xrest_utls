@@ -3,46 +3,49 @@ namespace XCC\utls\v1 ;
 
 class XInput
 {
-    static $preg  = "/[\',:;*?~`!#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/";
+    static $preg          = "/[\',:;*?~`!#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/";
     static $inputSettings = array() ;
-    static $exceptionCls  = "RuntimeException" ;
+    static $exceptionCls  = "\RuntimeException" ;
 
     static public function ruleSetting($jsonFile)
     {
-        $content = file_get_contents($jsonFile);
-        static::$inputSettings = json_decode($content) ;
-
-    }
-    static public function failSetting($exceptionCls = "RuntimeException") 
-    {
-        static::$exceptionCLS = $exceptionCls ;
-
-    }
-    static function error($key)
-    {
-        $msg = "$key 输入错误" ;
-        if(isset(self::$inputSettings[$key]))
+        if(file_exists($jsonFile))
         {
-
-            $msg = self::$messages[$key];
+            $content               = file_get_contents($jsonFile);
+            static::$inputSettings = json_decode($content,true) ;
+            if(static::$inputSettings )
+            {
+                return ;
+            }
         }
-        throw new static::$exceptionCLS($msg);
+        throw new \LogicException("$jsonFile is bad json!") ;
+    }
+    static public function failSetting($exceptionCls = "null")
+    {
+        static::$exceptionCls = $exceptionCls ;
+
+    }
+    static function getSetting($key)
+    {
+        $setting = self::$inputSettings['default'] ;
+        if (isset(self::$inputSettings[$key] ))
+        {
+            $setting = self::$inputSettings[$key] ;
+        }
+        return $setting ;
     }
     static public function safeGet($data,$maps) {
         $mapArr  = explode(',',$maps);
         $ret     = array();
         foreach($mapArr as $key){
-            $value = trim($data[$key]) ;
-            $setting =  self::$inputSettings['default'] ;
-            if (isset(self::$inputSettings[$key] ))
-            {
-                $setting = self::$inputSettings[$key] ;
-            }
-            if(!preg_match($setting['regex'],$value))
+            $value   = trim($data[$key]) ;
+            $setting = static::getSetting($key) ;
+            $regex   = $setting['regex'] ;
+            if(!empty($regex) && !preg_match($regex,$value))
             {
                 if (null != static::$exceptionCls)
                 {
-                    throw new static::$exceptionCLS($setting['error']);
+                    throw new static::$exceptionCls($setting['error']);
 
                 }
                 $value  = null ;
@@ -52,12 +55,12 @@ class XInput
         return $ret ;
     }
 
-    static public function safeDict($maps) {
-        $retval =  static::safeGet($maps);
+    static public function safeDict($data,$maps) {
+        $retval =  static::safeGet($data,$maps);
         return $retval ;
     }
-    static public function safeArr($maps) {
-        $retval =  array_values(static::safeGet($maps));
+    static public function safeArr($data,$maps) {
+        $retval =  array_values(static::safeGet($data,$maps));
         return $retval ;
     }
 }
