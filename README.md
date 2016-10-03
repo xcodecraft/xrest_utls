@@ -1,3 +1,12 @@
+
+# namespace
+
+```php 
+XCC\utls\v1
+```
+v1 版本号是为将来考虑兼容性
+
+
 #XInput
 
 ```php
@@ -7,7 +16,7 @@
 
 ```
 
-### 规则方件
+### 规则文件
 
 示例:
 ``` json
@@ -26,8 +35,11 @@
     }
 }
 ```
-加载:
+加载规则:
 ruleSetting() ;
+
+设定失败
+failSetting() ;
 
 #XSql
 
