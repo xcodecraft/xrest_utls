@@ -2,6 +2,8 @@
 namespace XCC\utls\v1 ;
 class XSql
 {
+    static $order = "order" ;
+    static $limit = "limit" ; 
     static public function where($dto)
     {
          $items  = get_object_vars($dto) ;
@@ -38,6 +40,10 @@ class XSql
             $end    = $matches[4] ;
             $bTag   = $tag[$begin] ;
             $eTag   = $tag[$end] ;
+            if (static::$limit == $key)
+            {
+                return   "limit $begin,$end" ;
+            }
             return   "$key $bTag $first and $key $eTag $second" ;
         }
 
@@ -66,6 +72,25 @@ class XSql
             $value  = str_replace('*','%',$value) ;
             return   "$key like $value"  ;
         }
+
+        $rule = '/^desc\((\S{1,})\)$/'; //in
+        if( preg_match($rule, $line, $matches))
+        {
+
+            $value  = $matches[1] ;
+            $value  = str_replace('*','%',$value) ;
+            return   "order by $value DESC"  ;
+        }
+        
+        $rule = '/^asc\((\S{1,})\)$/'; //in
+        if( preg_match($rule, $line, $matches))
+        {
+
+            $value  = $matches[1] ;
+            $value  = str_replace('*','%',$value) ;
+            return   "order by $value ASC"  ;
+        }
+        
         return "$key = $line" ;
 
     }

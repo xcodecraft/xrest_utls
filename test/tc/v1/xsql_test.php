@@ -42,7 +42,15 @@ class CondTest extends PHPUnit_Framework_TestCase
         $sql = XSql::parse("key","like('abc*')");
         $this->assertEquals($sql,"key like 'abc%'");
 
+        $sql = XSql::parse("limit","[0,2]");
+        $this->assertEquals($sql,"limit 0,2");
 
+
+        $sql = XSql::parse("order","desc(name)");
+        $this->assertEquals($sql,"order by name desc");
+        
+        $sql = XSql::parse("order","asc(name)");
+        $this->assertEquals($sql,"order by name asc");
     }
 
     public function testA()
