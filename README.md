@@ -6,6 +6,29 @@
     list($name,$age,$limit) = XInput::safeArr($data,"name,age,limit") ;
 
 ```
+
+### 规则方件
+
+示例:
+``` json
+{
+    "default" : {
+        "regex" : "" ,
+        "error" : ""
+    },
+    "name" : {
+        "regex" : "" ,
+        "error" : "姓名错误"
+    },
+    "age" : {
+        "regex" : "/^\\d+/" ,
+        "error" : "age error"
+    }
+}
+```
+加载:
+ruleSetting() ;
+
 #XSql
 
 ```
