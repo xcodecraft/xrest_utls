@@ -19,3 +19,4 @@ _prj/src_tags
 *.swp
 .idea/*
 platform_sdks
+test/reports/*
