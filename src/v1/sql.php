@@ -52,6 +52,15 @@ class XSql
         return trim($sql) ;
 
     }
+    static public function isDateTime($val)
+    {
+         $val = trim($val) ;
+        $date = \DateTime::createFromFormat("Y-m-d H:i:s",$val) ;
+        if($date != false) { return true; }
+        $date = \DateTime::createFromFormat('Y-m-d',$val) ;
+        if($date != false) { return true; }
+        return false ;
+    }
     static public function parse($key,$line)
     {
         $tag  = array();
@@ -75,7 +84,11 @@ class XSql
             {
                 return   [ "limit $first, $second", false ] ;
             }
+            if(static::isDateTime($first) &&  static::isDateTime($second))
+            {
+                return   [ "$key $bTag '$first' and $key $eTag '$second'" , true ] ;
 
+            }
             return   [ "$key $bTag $first and $key $eTag $second" , true ] ;
         }
 
@@ -122,8 +135,15 @@ class XSql
             $value  = str_replace('*','%',$value) ;
             return   [ "order by $value ASC" , false ] ;
         }
+        if (is_string($line))
+        {
+            return  [ "$key = '$line'" , true ] ;
+        }
+        else
+        {
+            return  [ "$key = $line" , true ] ;
+        }
 
-        return  [ "$key = $line" , true ] ;
 
     }
 

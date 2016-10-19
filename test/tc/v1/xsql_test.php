@@ -64,6 +64,10 @@ class CondTest extends PHPUnit_Framework_TestCase
         $sql       = XSql::where($qCont) ;
         $this->assertEquals($sql, "id = 100") ;
 
+        $qCont     = new QueryDTO;
+        $qCont->id = "abc" ;
+        $sql       = XSql::where($qCont) ;
+        $this->assertEquals($sql, "id = 'abc'") ;
 
     }
 
@@ -76,7 +80,7 @@ class CondTest extends PHPUnit_Framework_TestCase
         $qCont->order      = 'desc(id)';
         $sql               = XSql::where($qCont) ;
 
-        $expect = "id = 100 and createtime >= 2016-2-1 and createtime <= 2016-3-1 order by id DESC limit 0, 20" ;
+        $expect = "id = 100 and createtime >= '2016-2-1' and createtime <= '2016-3-1' order by id DESC limit 0, 20" ;
         $this->assertEquals($sql, $expect) ;
 
     }
@@ -92,5 +96,19 @@ class CondTest extends PHPUnit_Framework_TestCase
         echo "\n$sql" ;
 
     }
+}
+
+class SQLTest extends PHPUnit_Framework_TestCase
+{
+    public function testDate()
+    {
+        $this->assertTrue(XSql::isDateTime('2009-02-15 15:16:17') ) ;
+        $this->assertTrue(XSql::isDateTime("2016-01-01 10:59:59") ) ;
+        $this->assertTrue(XSql::isDateTime("2016-1-1 10:59:59") ) ;
+        $this->assertTrue(XSql::isDateTime("2016-01-01") ) ;
+        $this->assertTrue(XSql::isDateTime("2016-1-1") ) ;
+
+    }
+
 }
 
