@@ -30,9 +30,9 @@ class USER_LOGIN_FAIL  extends XUserInputException
 ```
 ### 调用
 ``` php
-        //setting
-        use XCC\utls\v1\ExceptionLang ;
-        ExceptionLang::$useLang = LANG_EN ;
-        //call
-        throw new USER_LOGIN_ERROR("1380013800") ;
+//setting
+use XCC\utls\v1\ExceptionLang ;
+ExceptionLang::$useLang = LANG_EN ;
+//call
+throw new USER_LOGIN_ERROR("1380013800") ;
 ```
