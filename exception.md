@@ -27,7 +27,7 @@ class USER_LOGIN_FAIL  extends XUserInputException
 }
 
 ```
-
+### 调用
 ``` php
         //setting
         use XCC\utls\v1\ExceptionLang ;
