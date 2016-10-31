@@ -1,14 +1,14 @@
 <?php
 namespace XCC\utls\v1 ;
 
-const LANG_ZH = 'zh' ;
-const LANG_EN = 'en' ;
+define('LANG_ZH','zh');
+define('LANG_EN','en');
 trait ExceptionLang
 {
     static $useLang = "" ;
     static public function getTPL()
     {
-        if (static::$useLang == LANG_EN)
+        if (ExceptionLang::$useLang == LANG_EN)
         {
             return static::$enFmt ;
         }
