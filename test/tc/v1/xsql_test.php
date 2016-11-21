@@ -78,9 +78,10 @@ class CondTest extends PHPUnit_Framework_TestCase
         $qCont->limit      = '[0, 20]';
         $qCont->createtime = '[2016-2-1, 2016-3-1]';
         $qCont->order      = 'desc(id)';
+        $qCont->pID        = 'is not NULL';
         $sql               = XSql::where($qCont) ;
 
-        $expect = "id = 100 and createtime >= '2016-2-1' and createtime <= '2016-3-1' order by id DESC limit 0, 20" ;
+        $expect = "id = 100 and createtime >= '2016-2-1' and createtime <= '2016-3-1' and pID is not NULL order by id DESC limit 0, 20" ;
         $this->assertEquals($sql, $expect) ;
 
     }

@@ -135,7 +135,13 @@ class XSql
             $value  = str_replace('*','%',$value) ;
             return   [ "order by $value ASC" , false ] ;
         }
-        if (is_string($line))
+        $rule = '/^(is\s+.*\s+NULL)$/'; //in
+        if( preg_match($rule, $line, $matches))
+        {
+            $value  = $matches[1] ;
+            return   [ "$key $matches[1]", true ] ;
+        }
+       if (is_string($line))
         {
             return  [ "$key = '$line'" , true ] ;
         }
