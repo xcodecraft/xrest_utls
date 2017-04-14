@@ -7,14 +7,13 @@ class XSql
 
     static public function getData($data)
     {
-        $ret    = array();
         if (is_object($data))
         {
-            return  get_object_vars($data) ;
+            return get_object_vars($data) ;
         }
         else if(is_array($data))
         {
-            return  $data ;
+            return $data ;
         }
         throw new \RuntimeException("XSql not support " .  get_class($data));
     }
