@@ -59,13 +59,8 @@ class XSqlV2 extends XSql
                 $join       = false;
             }else{
                 $sql    = "$key $bTag ? and $key $eTag ?";
-                if(static::isDateTime($first) &&  static::isDateTime($second)){
-                    $values[]   = "'$first'";
-                    $values[]   = "'$second'";
-                }else{
-                    $values[] = "$first";
-                    $values[] = "$second";
-                }
+                $values[] = $first;
+                $values[] = $second;
                 $join   = true;
             }
             return array($sql,$values,$join);
@@ -117,15 +112,9 @@ class XSqlV2 extends XSql
             $join       = true;
             return array($sql,$values,$join);
         }
-        if (is_string($line)){
-            $sql        = "$key = ?";
-            $values[]   = "'$line'";
-            $join       = true;
-        }else{
-            $sql        = "$key = ?";
-            $values[]   = $line;
-            $join       = true;
-        }
+        $sql        = "$key = ?";
+        $values[]   = $line;
+        $join       = true;
         return array($sql,$values,$join);
     }
 }

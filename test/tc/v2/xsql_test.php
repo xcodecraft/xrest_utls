@@ -86,7 +86,7 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $qCont->id = "abc" ;
         list($sql,$values)  = XSqlV2::where($qCont) ;
         $this->assertEquals($sql, "id = ?") ;
-        $this->assertEquals($values[0], "'abc'") ;
+        $this->assertEquals($values[0], "abc") ;
     }
 
     public function testB()
@@ -102,8 +102,8 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $expect = "id = ? and createtime >= ? and createtime <= ? and pID is not NULL order by id DESC limit ?, ?" ;
         $this->assertEquals($sql, $expect) ;
         $this->assertEquals($values[0], '100') ;
-        $this->assertEquals($values[1], "'2016-2-1'") ;
-        $this->assertEquals($values[2], "'2016-3-1'") ;
+        $this->assertEquals($values[1], "2016-2-1") ;
+        $this->assertEquals($values[2], "2016-3-1") ;
         $this->assertEquals($values[3], '0') ;
         $this->assertEquals($values[4], '20') ;
     }
