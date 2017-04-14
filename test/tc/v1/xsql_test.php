@@ -62,7 +62,7 @@ class CondTest extends PHPUnit_Framework_TestCase
         $qCont     = new QueryDTO;
         $qCont->id = 100 ;
         $sql       = XSql::where($qCont) ;
-        $this->assertEquals($sql, "id = '100'") ;
+        $this->assertEquals($sql, "id = 100") ;
 
         $qCont     = new QueryDTO;
         $qCont->id = "abc" ;
@@ -81,7 +81,7 @@ class CondTest extends PHPUnit_Framework_TestCase
         $qCont->pID        = 'is not NULL';
         $sql               = XSql::where($qCont) ;
 
-        $expect = "id = '100' and createtime >= '2016-2-1' and createtime <= '2016-3-1' and pID is not NULL order by id DESC limit 0, 20" ;
+        $expect = "id = 100 and createtime >= '2016-2-1' and createtime <= '2016-3-1' and pID is not NULL order by id DESC limit 0, 20" ;
         $this->assertEquals($sql, $expect) ;
 
     }

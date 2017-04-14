@@ -7,28 +7,15 @@ class XSql
 
     static public function getData($data)
     {
-        $ret    = array();
         if (is_object($data))
         {
-            $ret = get_object_vars($data) ;
+            return get_object_vars($data) ;
         }
         else if(is_array($data))
         {
-            $ret = $data ;
+            return $data ;
         }
-        else
-        {
-            throw new \RuntimeException("XSql not support " .  get_class($data));
-        }
-        $result = array();
-        foreach($ret as $k=>$v)
-        {
-            if(!get_magic_quotes_gpc()&&!empty($v))
-            {
-                $result[$k] = addslashes($v);
-            }
-        }
-        return $result;
+        throw new \RuntimeException("XSql not support " .  get_class($data));
     }
 
     static public function where($data)
