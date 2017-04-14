@@ -16,8 +16,8 @@ class XSql
             return $data ;
         }
         throw new \RuntimeException("XSql not support " .  get_class($data));
-    }
 
+    }
     static public function where($data)
     {
         $items = static::getData($data) ;
