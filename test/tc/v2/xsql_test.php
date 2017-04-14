@@ -116,7 +116,8 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $_GET['order']      = 'desc(id)' ;
 
         $data = XInput::safeDict($_GET,'id,limit,createtime,order') ;
-        $sql  = "select * from user where "  . XSqlV2::where($data) . ";" ;
+        list($sql,$values)  = XSqlV2::where($data);
+        $sql  = "select * from user where "  . $sql . ";" ;
         echo "\n$sql" ;
 
     }
