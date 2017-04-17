@@ -1,10 +1,24 @@
 <?
 namespace XCC\utls\v2 ;
 
-use XCC\utls\v1\XSql;
-
-class XSqlV2 extends XSql
+class XSql
 {
+    static $order = "order" ;
+    static $limit = "limit" ;
+
+    static public function getData($data)
+    {
+        if (is_object($data))
+        {
+            return get_object_vars($data) ;
+        }
+        else if(is_array($data))
+        {
+            return $data ;
+        }
+        throw new \RuntimeException("XSql not support " .  get_class($data));
+    }
+
     static public function where($data)
     {
         $items = static::getData($data) ;
