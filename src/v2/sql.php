@@ -53,9 +53,7 @@ class XSqlV2 extends XSql
             $bTag   = $tag[$begin] ;
             $eTag   = $tag[$end] ;
             if (static::$limit == $key){
-                $sql        = "limit ?, ?";
-                $values[]   = $first;
-                $values[]   = $second;
+                $sql        = "limit ".intval($first).",".intval($second);
                 $join       = false;
             }else{
                 $sql    = "$key $bTag ? and $key $eTag ?";

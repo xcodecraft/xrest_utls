@@ -53,9 +53,7 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSqlV2::parse("limit","[0,2]");
-        $this->assertEquals($sql,"limit ?, ?");
-        $this->assertEquals($values[0],0);
-        $this->assertEquals($values[1],2);
+        $this->assertEquals($sql,"limit 0,2");
         $this->assertEquals($join,false);
 
         list($sql,$values,$join) = XSqlV2::parse("order","desc(name)");
@@ -99,13 +97,11 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $qCont->pID        = 'is not NULL';
         list($sql,$values) = XSqlV2::where($qCont) ;
 
-        $expect = "id = ? and createtime >= ? and createtime <= ? and pID is not NULL order by id DESC limit ?, ?" ;
+        $expect = "id = ? and createtime >= ? and createtime <= ? and pID is not NULL order by id DESC limit 0,20" ;
         $this->assertEquals($sql, $expect) ;
         $this->assertEquals($values[0], '100') ;
         $this->assertEquals($values[1], "2016-2-1") ;
         $this->assertEquals($values[2], "2016-3-1") ;
-        $this->assertEquals($values[3], '0') ;
-        $this->assertEquals($values[4], '20') ;
     }
 
     public function testUse()
