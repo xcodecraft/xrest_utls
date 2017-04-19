@@ -104,6 +104,27 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $this->assertEquals($values[2], "2016-3-1") ;
     }
 
+    public function testOr()
+    {
+        $qCont             = new QueryDTO;
+        $qCont->id         = 100 ;
+        $qCont->limit      = '[0, 20]';
+        $qCont->createtime = '[2016-2-1, 2016-3-1]|[2016-8-1, 2016-8-2]|[2016-9-1, 2016-9-2]';
+        $qCont->order      = 'desc(id)';
+        $qCont->pID        = 'is not NULL';
+        list($sql,$values) = XSql::where($qCont) ;
+
+        $expect = "id = ? and ((createtime >= ? and createtime <= ?) or (createtime >= ? and createtime <= ?) or (createtime >= ? and createtime <= ?)) and pID is not NULL order by id DESC limit 0,20" ;
+        $this->assertEquals($sql, $expect) ;
+        $this->assertEquals($values[0], '100') ;
+        $this->assertEquals($values[1], "2016-2-1");
+        $this->assertEquals($values[2], "2016-3-1");
+        $this->assertEquals($values[3], "2016-8-1");
+        $this->assertEquals($values[4], "2016-8-2");
+        $this->assertEquals($values[5], "2016-9-1");
+        $this->assertEquals($values[6], "2016-9-2");
+    }
+
     public function testUse()
     {
         $_GET['id']         = 100 ;

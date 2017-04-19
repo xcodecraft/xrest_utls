@@ -13,7 +13,7 @@ class XSql extends XSqlv1
         $values = array();
         foreach($items as $key => $val){
             if (is_null($val)) continue ;
-            list($item,$value,$join)  = static::parse($key,$val) ;
+            list($item,$value,$join)  = static::split($key,$val) ;
             if (static::$limit == $key){
                 $values   = array_merge($values,$value);
                 $limit = $item ;
@@ -33,13 +33,32 @@ class XSql extends XSqlv1
         return array(trim($sql),$values) ;
     }
 
+    static public function split($key,$line)
+    {
+        $matches    = explode("|",$line); // or
+        if(count($matches)>1){
+            $values = array();
+            $sqls   = array();
+            foreach($matches as $v){
+                list($sql,$value,$join) = static::parse($key,$v);
+                $sqls[]  .= "(".$sql.")";
+                $values  = array_merge($values,$value);
+            }
+            $allSql .= "(".implode(" or ",$sqls).")";
+            $join   =  true;
+            return array($allSql,$values,$join);
+        }else{
+            return static::parse($key,$line);
+        }
+    }
+
     static public function parse($key,$line)
     {
         $tag  = array();
-        $tag['['] = ">=" ;
+        $tag['['] = ">=";
         $tag['('] = ">" ;
         $tag[')'] = "<" ;
-        $tag[']'] = "<=" ;
+        $tag[']'] = "<=";
 
         $sql    = "" ;
         $values = array();
@@ -70,7 +89,7 @@ class XSql extends XSqlv1
             $join       = true;
             return array($sql,$values,$join);
         }
-        $rule = '/^([>=<]{1,2})\s+(\S{1,})$/'; //in
+        $rule = '/^([>=<]{1,2})\s+(\S{1,})$/'; //<= or >=
         if( preg_match($rule, $line, $matches)){
             $symbol     = $matches[1] ;
             $sql        = "$key $symbol ?";
@@ -79,7 +98,7 @@ class XSql extends XSqlv1
             return array($sql,$values,$join);
         }
 
-        $rule = '/^like\((\S{1,})\)$/'; //in
+        $rule = '/^like\((\S{1,})\)$/'; //like
         if( preg_match($rule, $line, $matches)){
             $sql        = "$key like ?";
             $values[]   = str_replace('*','%',$matches[1]) ;
@@ -87,7 +106,7 @@ class XSql extends XSqlv1
             return array($sql,$values,$join);
         }
 
-        $rule = '/^desc\((\S{1,})\)$/'; //in
+        $rule = '/^desc\((\S{1,})\)$/'; //desc
         if( preg_match($rule, $line, $matches)){
             $value      = str_replace('*','%',$matches[1]) ;
             $sql        = "order by $value DESC";
@@ -95,14 +114,14 @@ class XSql extends XSqlv1
             return array($sql,$values,$join);
         }
 
-        $rule = '/^asc\((\S{1,})\)$/'; //in
+        $rule = '/^asc\((\S{1,})\)$/'; //asc
         if( preg_match($rule, $line, $matches)){
             $value      = str_replace('*','%',$matches[1]) ;
             $sql        = "order by $value ASC";
             $join       = false;
             return array($sql,$values,$join);
         }
-        $rule = '/^(is.*NULL)$/'; //in
+        $rule = '/^(is.*NULL)$/'; //is
         if( preg_match($rule, $line, $matches))
         {
             $sql        = "$key $matches[1]";
