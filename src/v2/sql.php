@@ -101,7 +101,7 @@ class XSql extends XSqlv1
         $rule = '/^like\((\S{1,})\)$/'; //like
         if( preg_match($rule, $line, $matches)){
             $sql        = "$key like ?";
-            $values[]   = str_replace('*','%',$matches[1]) ;
+            $values[]   = str_replace('*','%',trim($matches[1],"'")) ;
             $join       = true;
             return array($sql,$values,$join);
         }

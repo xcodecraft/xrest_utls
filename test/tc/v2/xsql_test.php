@@ -49,7 +49,7 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
 
         list($sql,$values,$join) = XSql::parse("key","like('abc*')");
         $this->assertEquals($sql,"key like ?");
-        $this->assertEquals($values[0],"'abc%'");
+        $this->assertEquals($values[0],"abc%");
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSql::parse("limit","[0,2]");
