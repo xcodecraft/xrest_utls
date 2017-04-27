@@ -39,7 +39,7 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
 
         list($sql,$values,$join) = XSql::parse("key","{'a','b','c'}");
         $this->assertEquals($sql,"key in (?,?,?)");
-        $this->assertEquals($values,["'a'","'b'","'c'"]);
+        $this->assertEquals($values,["a","b","c"]);
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSql::parse("num",">= 3");
