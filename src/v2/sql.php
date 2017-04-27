@@ -84,8 +84,9 @@ class XSql extends XSqlv1
 
         $rule = '/^\{(.*)\}$/'; //in
         if( preg_match($rule, $line, $matches)){
-            $sql        = "$key in (?)";
-            $values[]   = $matches[1] ;
+            $values     = explode(',',$matches[1]);
+            $chars      = rtrim(implode(',',array_fill(0,count($values),'?')),',');
+            $sql        = "$key in ($chars)";
             $join       = true;
             return array($sql,$values,$join);
         }

@@ -33,13 +33,13 @@ class CondTestV2 extends PHPUnit_Framework_TestCase
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSql::parse("num","{1,2,3}");
-        $this->assertEquals($sql,"num in (?)");
-        $this->assertEquals($values[0],"1,2,3");
+        $this->assertEquals($sql,"num in (?,?,?)");
+        $this->assertEquals($values,[1,2,3]);
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSql::parse("key","{'a','b','c'}");
-        $this->assertEquals($sql,"key in (?)");
-        $this->assertEquals($values[0],"'a','b','c'");
+        $this->assertEquals($sql,"key in (?,?,?)");
+        $this->assertEquals($values,["'a'","'b'","'c'"]);
         $this->assertEquals($join,true);
 
         list($sql,$values,$join) = XSql::parse("num",">= 3");
