@@ -1,10 +1,11 @@
 
 # namespace
 
-```php 
+```php
 XCC\utls\v1
 ```
 v1 版本号是为将来考虑兼容性
+v2 版本号是修复sql注入问题
 
 
 #XInput
